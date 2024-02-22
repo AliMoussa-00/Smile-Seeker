@@ -3,15 +3,23 @@ this is the base model module
 will hold the parent class
 """
 from datetime import datetime
+from os import getenv
+from sqlalchemy.ext.declarative import declarative_base
 
 import models
 import uuid
+
+if getenv("SS_DB_TYPE") == "db":
+    Base = declarative_base()
+else:
+    Base = None
 
 
 class BaseModel:
     """
     the parent class for other classes
     """
+
     def __init__(self, *args, **kwargs):
         """initialize the base model instance"""
         self.id = str(uuid.uuid4())
@@ -24,9 +32,11 @@ class BaseModel:
                     setattr(self, k, v)
 
             if kwargs.get("updated_at", None) and type(self.updated_at) is str:
-                self.updated_at = datetime.fromisoformat(kwargs.get("updated_at"))
+                self.updated_at = datetime.fromisoformat(
+                    kwargs.get("updated_at"))
             if kwargs.get("created_at", None) and type(self.created_at) is str:
-                self.created_at = datetime.fromisoformat(kwargs.get("created_at"))
+                self.created_at = datetime.fromisoformat(
+                    kwargs.get("created_at"))
 
     def __str__(self):
         """string representation of the instance"""
