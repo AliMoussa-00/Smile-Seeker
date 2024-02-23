@@ -65,9 +65,19 @@ class BaseModel:
 
     def update(self, **kwargs):
         """update the instance"""
+        data_types = [int, float]
         if kwargs:
             for k, v in kwargs.items():
                 if k not in ["id", "created_at", "updated_at"]:
+                    # checking if value is an int or float
+                    for type in data_types:
+                        try:
+                            casted_value = type(v)
+                            v = casted_value
+                            break
+                        except ValueError:
+                            pass
+
                     setattr(self, k, v)
             self.save()
 
