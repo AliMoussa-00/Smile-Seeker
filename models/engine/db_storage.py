@@ -4,6 +4,7 @@ from models.base_model import Base, BaseModel
 from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from models.users import Users
 
 
 class DBStorage:
@@ -11,7 +12,7 @@ class DBStorage:
 
     __engine = None
     __session = None
-    __classes = {"BaseModel": BaseModel}
+    __classes = {"Users": Users}
 
     def __init__(self):
         """Initializing the DB"""
@@ -19,9 +20,8 @@ class DBStorage:
         SS_DB_PWD = getenv("SS_DB_pwd")
         SS_DB_HOST = getenv("SS_DB_HOST")
         SS_DB = getenv("SS_DB")
-        SS_DB_TYPE = getenv("SS_DB_TYPE")
 
-        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(
+        self.__engine = create_engine("mysql+pymysql://{}:{}@{}/{}".format(
             SS_DB_USER, SS_DB_PWD, SS_DB_HOST, SS_DB
         ), pool_pre_ping=True)
 
@@ -39,8 +39,39 @@ class DBStorage:
         for c in self.__classes.keys():
             # if cls is None or cls is a string in classes or cls a class
             if cls is None or cls in self.__classes or cls is self.__classes[c]:
-                for obj in self.__session.query(c).all():
+                for obj in self.__session.query(self.__classes[c]).all():
                     key = f"{obj.__class__.__name__}.{obj.id}"
                     objs[key] = obj
         
         return objs
+
+    def new(self, obj):
+        """add a new object to the DB"""
+        if obj:
+            self.__session.add(obj)
+
+    def save(self):
+        """save changes to the DB"""
+        self.__session.commit()
+
+    def get(self, cls, obj_id):
+        """get a class instance based on id"""
+        if cls and obj_id and obj_id != "":
+            if cls in self.__classes.values():
+                cls = cls.__name__
+            if type(cls) is str and cls not in self.__classes:
+                return None
+
+            key = f"{cls}.{obj_id}"
+            return self.all(cls).get(key, None)
+        else:
+            return None
+
+    def delete(self, obj):
+        """delete object from DB"""
+        if obj:
+            self.__session.delete(obj)
+
+    def close(self):
+        """close connection to the DB"""
+        self.__session.remove()
