@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """testing the console module"""
 import unittest
-from unittest.mock import patch
 from io import StringIO
+from unittest.mock import patch
+
 from console import HBNBCommand
 from models.base_model import BaseModel
 
 
 class TestHBNBCommand(unittest.TestCase):
     """unittest class of console"""
+
     def setUp(self):
         self.cli = HBNBCommand()
 
