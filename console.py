@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ console module """
 import cmd
+import re
 import shlex
 
 import models
@@ -25,27 +26,108 @@ class HBNBCommand(cmd.Cmd):
         """Quit command to exit the program"""
         return True
 
+    # ------------------------------------------
+    # ----------- Default - --------------------
+    # ------------------------------------------
+    def default(self, line):
+        """
+        overriding the 'default' function
+        I will be able to enter command: <class>.<command>(params)
+        """
+
+        cmds = {
+            "all": self.do_all,
+            "create": self.do_create,
+            "count": self.do_count,
+            "show": self.do_get,
+            "destroy": self.do_delete,
+            "update": self.do_update
+        }
+        match = re.search(r"\.", line)
+
+        if match:
+            # split the line into two part based on '.'
+            line_list = [line[:match.span()[0]], line[match.span()[1]:]]
+
+            match = re.search(r"\((.*?)\)", line_list[1])
+
+            if match:
+                match = re.search(r"""(\w+)\.(\w+)\((.*?)\)$""", line)
+                if match:
+                    args = match.groups()
+
+                    class_name = args[0]
+                    command = args[1]
+                    param = args[2]
+
+                    # get all the parameters
+                    matches = re.findall(r'"([^"]*)"', param)
+                    parameters = '='.join(matches)
+
+                    if command in cmds.keys() and class_name in self.classes.keys():
+                        return cmds[command](class_name + " " + parameters)
+
+        print(f"*** Unknown syntax: {line}")
+        return False
+
+    # ======== pars_params =============
+    def parse_params(self, params_str):
+        """
+        parse params as a string
+        and return params as a dict
+        """
+        params_list = params_str.split("=")
+        if len(params_list) > 0 and len(params_list) % 2 == 0:
+            i = 0
+            data_types = [int, float]
+            params_dict = {}
+            while i < len(params_list):
+                key = params_list[i]
+                value = params_list[i + 1]
+
+                # checking if value is an int or float
+                for type in data_types:
+                    try:
+                        casted_value = type(value)
+                        value = casted_value
+                        break
+                    except ValueError:
+                        pass
+
+                params_dict[key] = value
+                i += 2
+
+            return params_dict
+        return None
+
     # ========== create =================
     def do_create(self, line):
         """create an instance"""
-        args = line.split()
-        if len(args) == 0:
+        args = line.split(" ", 1)
+        cls = args[0] if len(args) > 0 else None
+        params = args[1] if len(args) > 1 else None
+
+        if not cls:
             print("** class name missing **")
 
-        elif args[0] not in self.classes:
+        elif cls not in self.classes:
             print("** invalid class name **")
 
         else:
-            obj = self.classes[args[0]]()
-            print(obj.id)
+            params_dict = {}
+            if params:
+                params_dict = self.parse_params(params)
 
+            obj = self.classes[cls](**params_dict)
+            print(obj.id)
             obj.save()
 
     def help_create(self):
         txt = "create an instance of the class\n"
-        txt += "Usage: create <class_name>"
+        txt += "Usage_1: create <class_name>\n"
+        txt += 'Usage_2: <class>.create("key": "value", "key": "value"...)'
         print(txt)
-    
+
     # ========== all =================
     def do_all(self, line):
         args = line.split()
@@ -150,6 +232,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         obj.delete()
+
     def help_delete(self):
         txt = "delete a class instance\n"
         txt += "Usage: delete <class> <id>"
