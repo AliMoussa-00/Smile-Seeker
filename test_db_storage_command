@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# start 'console.py' with environment variables
+# to be able to use DataBase for testing
+
+SS_DB_TYPE="db" SS_DB="ss_test_db" SS_DB_USER="ss_test" SS_DB_pwd="ss_test_pwd" SS_DB_HOST="localhost" python3 -m unittest tests/test_models/test_engine/test_db_storage.py
