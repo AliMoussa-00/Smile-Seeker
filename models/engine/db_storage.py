@@ -4,6 +4,7 @@ from models.base_model import Base, BaseModel
 from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from models.doctors import Doctors
 from models.users import Users
 
 
@@ -12,7 +13,7 @@ class DBStorage:
 
     __engine = None
     __session = None
-    __classes = {"Users": Users}
+    __classes = {"Users": Users, "Doctors": Doctors}
 
     def __init__(self):
         """Initializing the DB"""

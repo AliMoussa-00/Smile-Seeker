@@ -1,6 +1,7 @@
 """create a file storage module"""
 
 from models.base_model import BaseModel
+from models.doctors import Doctors
 from models.users import Users
 
 import json
@@ -9,7 +10,7 @@ import json
 class FileStorage:
     __file_path = "file_storage.json"
     __objects = {}
-    __classes = {"BaseModel": BaseModel, "User": Users}
+    __classes = {"BaseModel": BaseModel, "User": Users, "Doctors": Doctors}
 
     def new(self, obj):
         """add a new object to '__objects' """

@@ -7,11 +7,12 @@ import shlex
 import models
 from models.base_model import BaseModel
 from models.users import Users
+from models.doctors import Doctors
 
 
 class HBNBCommand(cmd.Cmd):
     """Smile Seeker console class"""
-    classes = {"BaseModel": BaseModel, "Users": Users}
+    classes = {"BaseModel": BaseModel, "Users": Users, "Doctors": Doctors}
 
     prompt = "(SS) "
 
