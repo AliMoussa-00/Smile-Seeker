@@ -57,6 +57,8 @@ class BaseModel:
             obj_dict["created_at"] = obj_dict["created_at"].isoformat()
         if "_sa_instance_state" in obj_dict.keys():
             del obj_dict["_sa_instance_state"]
+        if "appointment_date" in obj_dict.keys():
+            obj_dict["appointment_date"] = obj_dict["appointment_date"].isoformat()
 
         obj_dict["__class__"] = self.__class__.__name__
         return obj_dict

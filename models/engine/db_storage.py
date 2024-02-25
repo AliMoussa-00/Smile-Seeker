@@ -8,6 +8,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from models.appointment import Appointments
 from models.base_model import Base
 from models.doctors import Doctors
+from models.location import Location
 from models.reviews import Reviews
 from models.users import Users
 
@@ -18,7 +19,7 @@ class DBStorage:
     __engine = None
     __session = None
     __classes = {"Users": Users, "Doctors": Doctors, "Reviews": Reviews,
-                 "Appointments": Appointments}
+                 "Appointments": Appointments, "Location": Location}
 
     def __init__(self):
         """Initializing the DB"""
@@ -31,8 +32,8 @@ class DBStorage:
             SS_DB_USER, SS_DB_PWD, SS_DB_HOST, SS_DB
         ), pool_pre_ping=True)
 
-        # !!!!!
-        Base.metadata.drop_all(self.__engine)
+        # !!!!! for testing
+        # Base.metadata.drop_all(self.__engine)
 
     def reload(self):
         """creating a session and reloading db"""

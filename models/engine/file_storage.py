@@ -5,6 +5,7 @@ import json
 from models.appointment import Appointments
 from models.base_model import BaseModel
 from models.doctors import Doctors
+from models.location import Location
 from models.reviews import Reviews
 from models.users import Users
 
@@ -13,7 +14,7 @@ class FileStorage:
     __file_path = "file_storage.json"
     __objects = {}
     __classes = {"BaseModel": BaseModel, "User": Users, "Doctors": Doctors,
-                 "Reviews": Reviews, "Appointments": Appointments}
+                 "Reviews": Reviews, "Appointments": Appointments, "Location": Location}
 
     def new(self, obj):
         """add a new object to '__objects' """

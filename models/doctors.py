@@ -2,7 +2,7 @@
 import hashlib
 
 from sqlalchemy import Column, String
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 from models import storage_type
 from models.base_model import Base, BaseModel
@@ -23,7 +23,9 @@ class Doctors(BaseModel, Base):
         availability = Column(String(20), default="True")
         reviews = relationship("Reviews", backref="doctor", cascade="all, delete-orphan")
         appointments = relationship("Appointments", backref="doctor", cascade="all, delete-orphan")
-        # location
+
+        # one-to-one relationship with the location table
+        location = relationship("Location", backref=backref("doctor", uselist=False), cascade="all, delete-orphan")
 
     else:
         availability = "True"
