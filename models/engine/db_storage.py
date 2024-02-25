@@ -1,10 +1,13 @@
 """this is the DB storage module"""
 
-from models.base_model import Base, BaseModel
 from os import getenv
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+
+from models.base_model import Base
 from models.doctors import Doctors
+from models.reviews import Reviews
 from models.users import Users
 
 
@@ -13,7 +16,7 @@ class DBStorage:
 
     __engine = None
     __session = None
-    __classes = {"Users": Users, "Doctors": Doctors}
+    __classes = {"Users": Users, "Doctors": Doctors, "Reviews": Reviews}
 
     def __init__(self):
         """Initializing the DB"""
@@ -25,6 +28,9 @@ class DBStorage:
         self.__engine = create_engine("mysql+pymysql://{}:{}@{}/{}".format(
             SS_DB_USER, SS_DB_PWD, SS_DB_HOST, SS_DB
         ), pool_pre_ping=True)
+
+        # !!!!!
+        # Base.metadata.drop_all(self.__engine)
 
     def reload(self):
         """creating a session and reloading db"""
@@ -39,11 +45,11 @@ class DBStorage:
         objs = {}
         for c in self.__classes.keys():
             # if cls is None or cls is a string in classes or cls a class
-            if cls is None or cls in self.__classes or cls is self.__classes[c]:
+            if cls is None or (cls in self.__classes.keys() and self.__classes[cls] is self.__classes[c]):
                 for obj in self.__session.query(self.__classes[c]).all():
                     key = f"{obj.__class__.__name__}.{obj.id}"
                     objs[key] = obj
-        
+
         return objs
 
     def new(self, obj):

@@ -1,9 +1,11 @@
 """the doctor module"""
 import hashlib
 
-from models.base_model import Base, BaseModel
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
+
 from models import storage_type
-from sqlalchemy import Column, Boolean, String
+from models.base_model import Base, BaseModel
 
 
 class Doctors(BaseModel, Base):
@@ -14,11 +16,12 @@ class Doctors(BaseModel, Base):
 
         first_name = Column(String(128), nullable=False)
         last_name = Column(String(128), nullable=False)
-        email = Column(String(128), nullable=False)
+        email = Column(String(128), unique=True, nullable=False)
         password = Column(String(128), nullable=False)
         phone = Column(String(128), nullable=False)
         # picture = Column(String(128), nullable=True)
         availability = Column(String(20), default="True")
+        reviews = relationship("Reviews", backref="doctor", cascade="all, delete-orphan")
         # location
 
     else:
