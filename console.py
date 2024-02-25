@@ -5,6 +5,7 @@ import re
 import shlex
 
 import models
+from models.appointment import Appointments
 from models.base_model import BaseModel
 from models.doctors import Doctors
 from models.reviews import Reviews
@@ -14,7 +15,7 @@ from models.users import Users
 class HBNBCommand(cmd.Cmd):
     """Smile Seeker console class"""
     classes = {"BaseModel": BaseModel, "Users": Users, "Doctors": Doctors,
-               "Reviews": Reviews}
+               "Reviews": Reviews, "Appointments": Appointments}
 
     prompt = "(SS) "
 

@@ -5,6 +5,7 @@ from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+from models.appointment import Appointments
 from models.base_model import Base
 from models.doctors import Doctors
 from models.reviews import Reviews
@@ -16,7 +17,8 @@ class DBStorage:
 
     __engine = None
     __session = None
-    __classes = {"Users": Users, "Doctors": Doctors, "Reviews": Reviews}
+    __classes = {"Users": Users, "Doctors": Doctors, "Reviews": Reviews,
+                 "Appointments": Appointments}
 
     def __init__(self):
         """Initializing the DB"""
@@ -30,7 +32,7 @@ class DBStorage:
         ), pool_pre_ping=True)
 
         # !!!!!
-        # Base.metadata.drop_all(self.__engine)
+        Base.metadata.drop_all(self.__engine)
 
     def reload(self):
         """creating a session and reloading db"""

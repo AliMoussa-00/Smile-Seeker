@@ -22,6 +22,7 @@ class Doctors(BaseModel, Base):
         # picture = Column(String(128), nullable=True)
         availability = Column(String(20), default="True")
         reviews = relationship("Reviews", backref="doctor", cascade="all, delete-orphan")
+        appointments = relationship("Appointments", backref="doctor", cascade="all, delete-orphan")
         # location
 
     else:

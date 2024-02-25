@@ -21,8 +21,10 @@ class Users(BaseModel, Base):
         phone = Column(String(128), nullable=False)
         # picture = Column(String(128), nullable=True)
         reviews = relationship("Reviews", backref="user", cascade="all, delete-orphan")
+        appointments = relationship("Appointments", backref="user", cascade="all, delete-orphan")
 
     else:
+
         first_name = ""
         last_name = ""
         email = ""
