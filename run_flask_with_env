@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# start 'console.py' with environment variables
+# to be able to use DataBase instead of FileStorage
+
+SS_DB_TYPE="db" SS_DB="ss_dev_db" SS_DB_USER="ss_dev" SS_DB_pwd="ss_dev_pwd" SS_DB_HOST="localhost" python3 api/v1/app.py
