@@ -33,7 +33,7 @@ class DBStorage:
         ), pool_pre_ping=True)
 
         # !!!!! for testing
-        # Base.metadata.drop_all(self.__engine)
+        Base.metadata.drop_all(self.__engine)
 
     def reload(self):
         """creating a session and reloading db"""

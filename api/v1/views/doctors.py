@@ -53,12 +53,12 @@ def create_doc():
 
 
 @app_views.route('/doctors_pictures/<doc_id>', methods=['POST'], strict_slashes=False)
-def get_doc_picture(doc_id):
-    """get the doctor picture"""
+def save_doc_picture(doc_id):
+    """save the doctor picture"""
 
     if 'image' in request.files:
         image_file = request.files['image']
-        file_path = f"/home/ali6500/DEV/Smile-Seeker/users_pictures/{image_file.filename}.png"
+        file_path = f"/home/ali6500/DEV/Smile-Seeker/api/v1/views/users_pictures/{image_file.filename}.png"
         image_file.save(file_path)
         # update the doctor object
         doc = storage.get("Doctors", doc_id)
