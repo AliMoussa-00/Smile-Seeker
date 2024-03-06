@@ -20,6 +20,7 @@ class Doctors(BaseModel, Base):
         password = Column(String(128), nullable=False)
         phone = Column(String(128), nullable=False)
         picture = Column(String(128), nullable=True)
+        description = Column(String(1024), nullable=True)
         availability = Column(String(20), default="True")
         reviews = relationship("Reviews", backref="doctor", cascade="all, delete-orphan")
         appointments = relationship("Appointments", backref="doctor", cascade="all, delete-orphan")
