@@ -12,8 +12,8 @@ class Reviews(BaseModel, Base):
     if storage_type == "db":
         __tablename__ = "reviews"
 
-        user_id = Column(String(128), ForeignKey("users.id"), nullable=False)
-        doctor_id = Column(String(128), ForeignKey("doctors.id"), nullable=False)
+        user_id = Column(String(128), ForeignKey("users.id", ondelete='CASCADE'), nullable=False)
+        doctor_id = Column(String(128), ForeignKey("doctors.id", ondelete='CASCADE'), nullable=False)
         comment = Column(String(500), nullable=False)
         rating = Column(INT, nullable=False)
     else:

@@ -10,7 +10,7 @@ class Location(BaseModel, Base):
 
     if storage_type == "db":
         __tablename__ = "location"
-        doctor_id = Column(String(128), ForeignKey("doctors.id"), nullable=False)
+        doctor_id = Column(String(128), ForeignKey("doctors.id", ondelete='CASCADE'), nullable=False)
         address = Column(String(128), nullable=False)
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)

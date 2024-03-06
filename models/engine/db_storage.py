@@ -77,6 +77,18 @@ class DBStorage:
         else:
             return None
 
+    def login(self, cls, email, password):
+        """this function will be used to check if a user exists in DB"""
+        if email and email != "" and password and password != "":
+            user = self.__session.query(cls).filter_by(email=email, password=password).first()
+            if user:
+                # Return user id if email and password are correct
+                return user
+            else:
+                # Return None if email and password do not match
+                return None
+        return None
+
     def delete(self, obj):
         """delete object from DB"""
         if obj:

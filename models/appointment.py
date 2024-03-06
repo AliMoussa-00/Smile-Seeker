@@ -12,8 +12,8 @@ class Appointments(BaseModel, Base):
     if storage_type == "db":
         __tablename__ = "appointments"
 
-        user_id = Column(String(128), ForeignKey("users.id"), nullable=False)
-        doctor_id = Column(String(128), ForeignKey("doctors.id"), nullable=False)
+        user_id = Column(String(128), ForeignKey("users.id", ondelete='CASCADE'), nullable=False)
+        doctor_id = Column(String(128), ForeignKey("doctors.id", ondelete='CASCADE'), nullable=False)
         appointment_date = Column(DateTime, default=datetime.utcnow)
         status = Column(String(28), default='scheduled')
 
