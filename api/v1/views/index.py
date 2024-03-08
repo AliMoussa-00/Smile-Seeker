@@ -16,7 +16,7 @@ def upload_image(user_id):
     """ upload the user/doc image """
     absolute_path = os.path.dirname(__file__)
     image_path = f"{absolute_path}/users_pictures/user_{user_id}_pic.png"
-    print(absolute_path)
+
     if os.path.exists(image_path):
         
         return send_file(image_path, mimetype='image/png')
