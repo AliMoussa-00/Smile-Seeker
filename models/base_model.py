@@ -75,7 +75,7 @@ class BaseModel:
         """update the instance"""
         if kwargs:
             for k, v in kwargs.items():
-                if k not in ["id", "created_at", "updated_at"]:
+                if k not in ["id", "created_at", "updated_at", "__class__"]:
                     setattr(self, k, v)
             self.save()
 
