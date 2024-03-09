@@ -64,6 +64,24 @@ def get_doc_appoints(doc_id):
     return make_response(jsonify(appoints), 200)
 
 
+@app_views.route('/user_appointments/<user_id>', methods=['GET'], strict_slashes=False)
+def get_user_appoints(user_id):
+    """get all appointments for a user"""
+
+    user = storage.get("Users", user_id)
+    if not user:
+        abort(404, description="Not a user")
+
+    print(user.appointments)
+    all_appoints = user.appointments
+    appoints = []
+    if all_appoints:
+        for appoint in all_appoints:
+            appoints.append(appoint.to_dict())
+
+    return make_response(jsonify(appoints), 200)
+
+
 @app_views.route('/appointments/<apppoint_id>', methods=['DELETE'], strict_slashes=False)
 def delete_appointment(apppoint_id):
     """delete an appointment instance"""
