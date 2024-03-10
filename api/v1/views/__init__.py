@@ -8,3 +8,4 @@ from api.v1.views.index import *
 from api.v1.views.users import *
 from api.v1.views.doctors import *
 from api.v1.views.appointment import *
+from api.v1.views.reviews import *

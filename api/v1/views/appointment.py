@@ -16,7 +16,7 @@ def get_appoints():
     appoints = []
     if all_appoints:
         for appoint in all_appoints.values():
-            appoint.append(appoint.to_dict())
+            appoints.append(appoint.to_dict())
 
     return jsonify(appoints)
 
@@ -54,7 +54,6 @@ def get_doc_appoints(doc_id):
     if not doc:
         abort(404, description="Not a Doctor")
 
-    print(doc.appointments)
     all_appoints = doc.appointments
     appoints = []
     if all_appoints:

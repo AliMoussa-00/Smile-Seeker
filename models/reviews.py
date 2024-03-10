@@ -15,7 +15,7 @@ class Reviews(BaseModel, Base):
         user_id = Column(String(128), ForeignKey("users.id", ondelete='CASCADE'), nullable=False)
         doctor_id = Column(String(128), ForeignKey("doctors.id", ondelete='CASCADE'), nullable=False)
         comment = Column(String(500), nullable=False)
-        rating = Column(INT, nullable=False)
+        rating = Column(INT, default=3)
     else:
         user_id = ""
         doctor_id = ""
