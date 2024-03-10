@@ -36,9 +36,15 @@ def create_user():
         abort(404, description="Not Json")
     data = request.get_json()
 
-    user = Users(**data)
-    user.save()
-    return make_response(jsonify(user.id), 201)
+    if "email" not in data or "password" not in data:
+        abort(404, description="email or password is missing")
+
+    if storage.email_exists(Users, data['email']) == True:
+        return make_response('Email already exists', 501)
+    else:
+        # user = Users(**data)
+        # user.save()
+        return make_response(jsonify(user.id), 201)
 
 
 @app_views.route('/log_user', methods=['POST'], strict_slashes=False)

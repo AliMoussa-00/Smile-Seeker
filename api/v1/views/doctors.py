@@ -37,6 +37,13 @@ def create_doc():
     if not request.get_json():
         abort(404, description="Not Json")
     data = request.get_json()
+
+    if "email" not in data or "password" not in data:
+        abort(404, description="email or password is missing")
+
+    if storage.email_exists(Doctors, data['email']) == True:
+        return make_response('Email already exists', 501)
+    
     address = None
     if 'address' in data:
         address = data['address']

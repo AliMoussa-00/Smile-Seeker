@@ -89,6 +89,16 @@ class DBStorage:
                 return None
         return None
 
+    def email_exists(self, cls, email):
+        """check if email already exists in DB"""
+        if email and email != "" :
+            user = self.__session.query(cls).filter_by(email=email).first()
+            if user:
+                return True
+            else:
+                return False
+        return False
+
     def delete(self, obj):
         """delete object from DB"""
         if obj:
