@@ -37,6 +37,23 @@ def get_doc_reviews(doc_id):
     return make_response(jsonify(reviews), 200)
 
 
+@app_views.route('/user_reviews/<user_id>', methods=['GET'], strict_slashes=False)
+def get_user_reviews(user_id):
+    """get all reviews for a user"""
+
+    user = storage.get("Users", user_id)
+    if not user:
+        abort(404, description="Not a User")
+
+    all_reviews = user.reviews
+    reviews = []
+    if all_reviews:
+        for review in all_reviews:
+            reviews.append(review.to_dict())
+
+    return make_response(jsonify(reviews), 200)
+
+
 @app_views.route('/reviews', methods=['POST'], strict_slashes=False)
 def create_review():
     """create a review"""
