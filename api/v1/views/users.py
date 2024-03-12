@@ -42,8 +42,8 @@ def create_user():
     if storage.email_exists(Users, data['email']) == True:
         return make_response('Email already exists', 501)
     else:
-        # user = Users(**data)
-        # user.save()
+        user = Users(**data)
+        user.save()
         return make_response(jsonify(user.id), 201)
 
 
