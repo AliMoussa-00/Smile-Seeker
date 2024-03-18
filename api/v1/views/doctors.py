@@ -31,6 +31,17 @@ def get_doc(doc_id):
     return jsonify(doc.to_dict())
 
 
+@app_views.route('/doctors/<doc_id>', methods=['DELETE'], strict_slashes=False)
+def delete_doc(doc_id):
+    """delete a doctor"""
+    doc = storage.get("Doctors", doc_id)
+    if not doc:
+        abort(404)
+    
+    doc.delete()
+    return make_response("deleted", 200)
+
+
 @app_views.route('/doctors', methods=['POST'], strict_slashes=False)
 def create_doc():
     """create a doctor object"""

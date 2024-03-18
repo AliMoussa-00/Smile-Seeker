@@ -103,6 +103,7 @@ class DBStorage:
         """delete object from DB"""
         if obj:
             self.__session.delete(obj)
+            self.save()
 
     def close(self):
         """close connection to the DB"""
