@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# start 'console.py' with environment variables
-# to be able to use DataBase instead of FileStorage
+# run the Flask application 'api.v1.app'
+# using the appropriate environment variables
 
 SS_DB_TYPE="db" SS_DB="ss_dev_db" SS_DB_USER="ss_dev" SS_DB_pwd="ss_dev_pwd" SS_DB_HOST="localhost" python3 -m api.v1.app
